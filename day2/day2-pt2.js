@@ -22,7 +22,7 @@ for (let line of input.split("\n")) {
             needTo = "lose";
             if (theirPlay == "a") myPlay = "z"; // they chose rock - to lose we need to pick scissors
             if (theirPlay == "b") myPlay = "x"; // they chose paper - to lose we need to pick rock
-            if (theirPlay == "c") myPlay = "y"; // they chose scissors - to lose we need to pick  paper
+            if (theirPlay == "c") myPlay = "y"; // they chose scissors - to lose we need to pick paper
             break;
         case "y": // we need to draw
             needTo = "draw";
@@ -41,19 +41,19 @@ for (let line of input.split("\n")) {
     // do as part one now we've changed our shape
     switch (myPlay) {
         case "x": // rock
-            pointsThisTime += 1; // we get 1 point for chosing rock
+            pointsThisTime += 1; // we get 1 point for choosing rock
             if (theirPlay == "a") state = "draw"; // they chose rock
             if (theirPlay == "b") state = "loss"; // they chose paper
             if (theirPlay == "c") state = "win"; // they chose scissors
             break;
         case "y": // paper
-            pointsThisTime += 2; // we get 2 points for chosing paper
+            pointsThisTime += 2; // we get 2 points for choosing paper
             if (theirPlay == "a") state = "win"; // they chose rock
             if (theirPlay == "b") state = "draw"; // they chose paper
             if (theirPlay == "c") state = "loss"; // they chose scissors
             break;
         case "z": // scissors
-            pointsThisTime += 3; // we get 3 points for chosing scissors
+            pointsThisTime += 3; // we get 3 points for choosing scissors
             if (theirPlay == "a") state = "loss"; // they chose rock
             if (theirPlay == "b") state = "win"; // they chose paper
             if (theirPlay == "c") state = "draw"; // they chose scissors
