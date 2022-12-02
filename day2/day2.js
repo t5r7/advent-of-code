@@ -15,24 +15,24 @@ for (let line of input.split("\n")) {
     let myPlay = line.split(" ")[1].toLowerCase();
     let state = null;
 
-    // i'm sure there's a more mathemtical way of doing this
+    // i'm sure there's a more mathematical way of doing this
     // perhaps by converting the rock/paper/scissors into numbers
     // but this is less to think about and there's not too much to manually write
     switch (myPlay) {
         case "x": // rock
-            pointsThisTime += 1; // we get 1 point for chosing rock
+            pointsThisTime += 1; // we get 1 point for choosing rock
             if (theirPlay == "a") state = "draw"; // they chose rock
             if (theirPlay == "b") state = "loss"; // they chose paper
             if (theirPlay == "c") state = "win"; // they chose scissors
             break;
         case "y": // paper
-            pointsThisTime += 2; // we get 2 points for chosing paper
+            pointsThisTime += 2; // we get 2 points for choosing paper
             if (theirPlay == "a") state = "win"; // they chose rock
             if (theirPlay == "b") state = "draw"; // they chose paper
             if (theirPlay == "c") state = "loss"; // they chose scissors
             break;
         case "z": // scissors
-            pointsThisTime += 3; // we get 3 points for chosing scissors
+            pointsThisTime += 3; // we get 3 points for choosing scissors
             if (theirPlay == "a") state = "loss"; // they chose rock
             if (theirPlay == "b") state = "win"; // they chose paper
             if (theirPlay == "c") state = "draw"; // they chose scissors
