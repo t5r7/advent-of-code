@@ -20,7 +20,7 @@ for(let bag of input.split("\n")) {
     });
 
     let thisCharValue = matchingLetter.toLowerCase().charCodeAt() - 96; // use ascii codes to get pos in alphabet (1-26)
-    if (l.toUpperCase() == l) thisCharValue += 26; // if it's a capital letter, we need to add 26 for 27-52
+    if (matchingLetter.toUpperCase() == matchingLetter) thisCharValue += 26; // if it's a capital letter, we need to add 26 for 27-52
     
     console.log(matchingLetter, thisCharValue);
     sum += thisCharValue;
