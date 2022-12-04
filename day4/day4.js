@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+const readFileSync = require("fs").readFileSync;
 
 // Read Input file
 const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
