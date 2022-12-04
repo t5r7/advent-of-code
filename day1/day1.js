@@ -8,7 +8,7 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 let elves = [];
 let i = 0;
 
-for (let line of input.split("\n")) {
+for (const line of input.split("\n")) {
   if (line.length <= 1) i++; // if the line is blank, move onto the next elf
   if (!elves[i]) elves[i] = 0; // if the current elf hasnt been seen before, init with 0
   elves[i] += parseInt(line);  // add cals to current elf

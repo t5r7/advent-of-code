@@ -7,14 +7,14 @@ let sum = 0; // total sum
 let i = 1; // loop index, starts at one for %
 let thisThree = []; // each group of three bags
 
-for(let bag of input.split("\n")) {
+for(const bag of input.split("\n")) {
     if(!bag) continue; // blank lines
 
     thisThree.push(bag); // add this bag to the current group
     
     // every three we can work on the group
     if (i % 3 == 0) {
-        let commonChar = getCommonCharacter(thisThree[0].split(''), thisThree[1].split(''), thisThree[2].split(''));
+        const commonChar = getCommonCharacter(thisThree[0].split(''), thisThree[1].split(''), thisThree[2].split(''));
 
         let thisCharValue = commonChar.toLowerCase().charCodeAt() - 96; // use ascii codes to get pos in alphabet (1-26)
         if (commonChar.toUpperCase() == commonChar) thisCharValue += 26; // if it's a capital letter, we need to add 26 for 27-52

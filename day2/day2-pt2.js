@@ -6,14 +6,14 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 let totalPoints = 0;
 
-for (let line of input.split("\n")) {
+for (const line of input.split("\n")) {
     if (!line) continue; // ignore blank lines
 
     let pointsThisTime = 0; // points from this game
     let state = null; // win/loss/draw, for adding right # of points in each game
     let needTo = null; // win/loss/draw, only for logging later
 
-    let theirPlay = line.split(" ")[0].toLowerCase();
+    const theirPlay = line.split(" ")[0].toLowerCase();
     let myPlay = line.split(" ")[1].toLowerCase();
 
     // this will change our shape depending on the goal of this game

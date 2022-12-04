@@ -5,11 +5,11 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 let sum = 0;
 
-for(let bag of input.split("\n")) {
+for(const bag of input.split("\n")) {
     if(!bag) continue; // blank lines
 
-    let firstHalf = bag.slice(0, bag.length/2).split(''); // first compartment
-    let secondHalf = bag.slice(bag.length / 2, bag.length).split(''); // second compartment
+    const firstHalf = bag.slice(0, bag.length/2).split(''); // first compartment
+    const secondHalf = bag.slice(bag.length / 2, bag.length).split(''); // second compartment
 
     let matchingLetter = null;
     firstHalf.forEach(letter => {

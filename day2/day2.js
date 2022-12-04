@@ -6,13 +6,13 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 let totalPoints = 0;
 
-for (let line of input.split("\n")) {
+for (const line of input.split("\n")) {
     if (!line) continue; // ignore blank lines
 
     let pointsThisTime = 0; // points from this game
 
-    let theirPlay = line.split(" ")[0].toLowerCase();
-    let myPlay = line.split(" ")[1].toLowerCase();
+    const theirPlay = line.split(" ")[0].toLowerCase();
+    const myPlay = line.split(" ")[1].toLowerCase();
     let state = null;
 
     // i'm sure there's a more mathematical way of doing this
