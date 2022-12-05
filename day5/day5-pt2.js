@@ -8,11 +8,11 @@ let lookingAtStart = true;
 let stacks = new Array();
 
 for(const line of input.split("\n")) {
-    let blankLine = (line.length <= 1) ? true : false;
+    const blankLine = (line.length <= 1) ? true : false;
 
-    if (blankLine) lookingAtStart = false; // whether we are looking at the input (the stacks from 1-9), we can use blank lines to determine this
+    if (blankLine) lookingAtStart = false; // whether we are looking at the input (the stacks from 1-9), we can use the first blank line to determine this
 
-    if (lookingAtStart === true) { // if we're looking at the start we need to process the input
+    if (lookingAtStart) { // if we're looking at the start we need to process the input
         const matched = line.match(/.{1,4}/g);
         if(!matched) continue;
 
