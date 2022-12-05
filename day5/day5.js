@@ -49,11 +49,9 @@ for(const line of input.split("\n")) {
 }
 
 
-stacks.forEach(s=>s.reverse()); // flip every stack so bottom is first element
-
 console.log(stacks);
 
 let bottomRows = "";
-stacks.forEach(s => bottomRows += s[s.length-1]); // append last crate of each stack
+stacks.forEach(s => bottomRows += s[0]); // append last crate of each stack
 
 console.log(bottomRows);
