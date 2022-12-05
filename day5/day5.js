@@ -5,7 +5,6 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 
 let lookingAtStart = true;
-let doneReverse = false;
 let stacks = new Array();
 
 for(const line of input.split("\n")) {
