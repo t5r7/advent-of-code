@@ -59,6 +59,6 @@ for(const line of input.split("\n")) {
 console.log(stacks);
 
 let bottomRows = "";
-stacks.forEach(s => bottomRows += s[0]); // append last crate of each stack
+stacks.forEach(s => bottomRows += s[0]); // append first (top) crate of each stack
 
 console.log(bottomRows);
