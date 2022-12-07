@@ -6,9 +6,8 @@ const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 let fs = {};
 let workingDir = [];
 
-let listingFiles = false;
 for (const line of input.split("\n")) {
-    if(!line) continue;
+    if(!line) continue; // skip blank lines
 
 
     // set our current directory
@@ -18,12 +17,12 @@ for (const line of input.split("\n")) {
         const cmd = line.split(" ")[1]; // will be "cd"
         const arg = line.split(" ")[2];  // will be the folder
 
-        if(arg == "/") workingDir = [];
+        if(arg == "/") workingDir = []; // return to / properly
 
         if (arg == "..") {
-            workingDir.pop();
+            workingDir.pop(); // go up a folder by removing the last in the working dir array
         } else { 
-            workingDir.push(arg);
+            workingDir.push(arg); // else we can append the folder to the end
         }   
 
         // if the current dir doesnt exist we init its size
@@ -40,47 +39,35 @@ for (const line of input.split("\n")) {
 
     if (size === "dir") continue; // we don't care about it telling us there's a dir there
 
-    // console.log(workingDir, size, name);
-
-    fs[workingDir.join("/")] += parseInt(size);
+    fs[workingDir.join("/")] += parseInt(size); // add the size of the file to the size of the current dir
 }
 
 
 // i stole this bit off george and i dont understand it really
 // but maybe it works?
 for (const dir in fs) {
-    const dirName = dir;
-    let dirSize = fs[dir];
+    const name = dir;
+    let size = fs[dir];
 
     for(const subDir in fs) {
-        const subDirName = subDir;
-        const subDirSize = fs[subDir];
+        const subName = subDir;
+        const subSize = fs[subDir];
 
-        if(dirName == subDirName) {
-            continue;
-        }
-        if(subDirName.startsWith(dirName)) {
-            dirSize += subDirSize;
-        }
+        if (name == subName) continue;
+        if (subName.startsWith(name)) size += subSize;
     }
 
-    fs[dir] = dirSize;
+    fs[dir] = size;
 }
+// thanks again big g x
 
+let totalSize = 0; // of all folders <= 100000
+for(const dir in fs) {
+    const name = dir;
+    const size = fs[dir];
 
-let totalSize = 0;
-for(const folder in fs) {
-    const folderName = folder;
-    const folderSize = fs[folder];
-
-    if(folderName == "/") continue;
-
-    if (folderSize <= 100000) {
-        // console.log("adding this folder", folderName, folderSize);
-
-        totalSize += folderSize;
-    }
-
+    if(name == "/") continue; // skip over root
+    if (size <= 100000) totalSize += size; // if we're under we can add to total size
 }
 
 console.log("part one, total size:", totalSize);
