@@ -45,7 +45,6 @@ for (const line of input.split("\n")) {
     fs[workingDir.join("/")] += parseInt(size);
 }
 
-console.log(fs);
 
 // i stole this bit off george and i dont understand it really
 // but maybe it works?
@@ -68,7 +67,6 @@ for (const dir in fs) {
     fs[dir] = dirSize;
 }
 
-console.log(fs);
 
 let totalSize = 0;
 for(const folder in fs) {
@@ -85,4 +83,27 @@ for(const folder in fs) {
 
 }
 
-console.log(totalSize);
+console.log("part one, total size:", totalSize);
+
+
+// PART TWO
+const spaceTotal = 70000000;
+const spaceRequired = 30000000;
+const spaceUsed = fs["/"];
+const spaceFree = spaceTotal - spaceUsed;
+const toFree = spaceRequired - spaceFree;
+
+console.log(spaceFree, "free");
+console.log(toFree, "needed to free");
+
+let candidates = []; // for deletion
+for (const dir in fs) {
+    const name = dir;
+    const size = fs[dir];
+
+    if (size > toFree) candidates.push({ name, size });
+}
+
+const sortedCandidates = candidates.sort((a, b) => { return a.size - b.size; });
+
+console.log("part two, folder to delete:", sortedCandidates[0].size, sortedCandidates[0]);
