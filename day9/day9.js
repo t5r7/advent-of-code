@@ -44,8 +44,6 @@ for(const instruction of input.split("\n")) {
 		visited.add(`${tailX},${tailY}`);
 	}
 
-
-
 	console.log("head", headX, headY, "tail", tailX, tailY);
 
 }
