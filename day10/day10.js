@@ -22,7 +22,8 @@ for(const instruction of input.split("\n")) {
 			cycle++;
 			break;
 		case "addx":
-			// "addx V takes two cycles to complete. After two cycles, the X register is increased by the value V. (V can be negative.)"
+			// "addx V takes two cycles to complete.
+			// After two cycles, the X register is increased by the value V. (V can be negative.)"
 			cycle++;
 			valuesAtCycle.push(registerX);
 
@@ -32,11 +33,12 @@ for(const instruction of input.split("\n")) {
 			valuesAtCycle.push(registerX);
 			break;
 	}
+
+	console.log(cycle, "(after)", registerX, opcode, value);
 }
 
-
 let sum = 0;
-for(const c of cyclesToCheck) sum+= (valuesAtCycle[c-2] * c);
+cyclesToCheck.forEach(c => sum += valuesAtCycle[c-2] * c);
 console.log("part one:", sum);
 
 
@@ -50,18 +52,7 @@ for(let c in valuesAtCycle) {
 	const beamPos = c % 40;
 	const spritePos = valuesAtCycle[c-1];
 
-	if(
-		beamPos == spritePos ||
-		beamPos == spritePos - 1 ||
-		beamPos == spritePos + 1
-	) {
-		out += "#";
-	} else {
-		out += " ";
-	}
-
-	// console.log(beamPos);
-	
+	out += (beamPos == spritePos || beamPos == spritePos - 1 || beamPos == spritePos + 1) ? "#" : " ";
 
 	if(beamPos === 39) out += "\n";
 }
