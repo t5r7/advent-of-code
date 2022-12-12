@@ -2,6 +2,8 @@ const readFileSync = require("fs").readFileSync;
 const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 let grid = [];
+// yes i know i can just reverse the previous solution (start at E and look for the first "a")
+// but this is funnier
 let starts = [];
 let end;
 
