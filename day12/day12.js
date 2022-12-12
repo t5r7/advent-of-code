@@ -1,7 +1,9 @@
 const readFileSync = require("fs").readFileSync;
-const input = readFileSync("input-test.txt", { encoding: "utf8", flag: "r" });
+const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
 
 let grid = [];
+let start;
+let end;
 
 for (let y in input.split("\n")) {
 	y = parseInt(y);
@@ -19,97 +21,94 @@ for (let y in input.split("\n")) {
 		grid[y][x] = {x, y, letter, height: letter.charCodeAt(0) - 96, visited: false, dist: Infinity};
 		
 		// if it's the start, set to height zero
-		if(letter === "S") grid[y][x].height = 0; 
+		if(letter === "S") {
+			grid[y][x].height = 0;
+			grid[y][x].dist = 0;
+			start = grid[y][x];
+		}
 
-		// if it's the end, set to height 27 and dist to 0
-		if(letter === "E") grid[y][x].height = 27;
-		if(letter === "E") grid[y][x].dist = 0;
+		// if it's the end, set to height 27
+		if(letter === "E") {
+			grid[y][x].height = 27;
+			end = grid[y][x];
+		}
 	}
 }
 
 
-console.log(grid);
-
-// find the starting X and Y
-let start = {};
-
-for(const y in grid) {
-	for (const x in grid[y]) {
-		if(grid[y][x].letter == "E") start = grid[y][x];
-	}
-}
-
-let queue = [];
-
-// add the goal point to the queue
-queue.push(start);
+let queue = [start];
 
 // while there are still points in the queue
 while (queue.length > 0) {	
 	const currentSpot = queue[0];
-	const x = parseInt(currentSpot.x);
-	const y = parseInt(currentSpot.y);
+	const x = currentSpot.x;
+	const y = currentSpot.y;
 
-	// remove the current spot from the queue
+	// remove the current point from the queue
 	queue.shift();
 
-	if(currentSpot.letter === "S") { console.log("FOUND THE START!"); break; }
-
-	// if in visited, skip
-	if(currentSpot.visited === true) continue;
-
+	// ignore visited spots
+	if(currentSpot.visited) continue;
 	currentSpot.visited = true;
 
 
-	// add the adjacent points to the queue if they exist
+	if(currentSpot.letter === end.letter) {
+		console.log("Found end!");
+		console.log(currentSpot);
+		break;
+	}
 
-	const ourHeight = currentSpot.height;
-	const ourDist = currentSpot.dist;
-
-	// square above
-	if (grid[y - 1]) { // check it exists
-		if (grid[y - 1][x].height <= ourHeight) {
-			grid[y - 1][x].dist = ourDist + 1;
-			queue.push(grid[y - 1][x]); // if it's not too high, add
+	// check the 4 surrounding points
+	// if they are not visited, and are within the height limit, add them to the queue
+	
+	// above
+	const spotAbove = (grid[y-1]) ? grid[y-1][x] : false;
+	if(spotAbove) { // make sure the row exists
+		if(spotAbove.height <= currentSpot.height+1 && !spotAbove.visited) {
+			spotAbove.dist = currentSpot.dist + 1; // set its distance
+			queue.push(spotAbove); // add it to queue
 		}
 	}
 
-	// square to the right
-	if (grid[y][x + 1]) {
-		if (grid[y][x + 1].height <= ourHeight) {
-			grid[y][x + 1].dist = ourDist + 1;
-			queue.push(grid[y][x + 1]);
+	// below
+	const spotBelow = (grid[y+1]) ? grid[y+1][x] : false;
+	if(spotBelow) { // make sure the row exists
+		if(spotBelow.height <= currentSpot.height+1 && !spotBelow.visited) {
+			spotBelow.dist = currentSpot.dist + 1; // set its distance
+			queue.push(spotBelow); // add it to queue
 		}
 	}
 
-	// square below
-	if (grid[y + 1]) {
-		if (grid[y + 1][x].height <= ourHeight) {
-			grid[y + 1][x].dist = ourDist + 1;
-			queue.push(grid[y + 1][x]);
+	// left
+	const spotLeft = (grid[y][x-1]) ? grid[y][x-1] : false;
+	if(spotLeft) { // make sure the row exists
+		if(spotLeft.height <= currentSpot.height+1 && !spotLeft.visited) {
+			spotLeft.dist = currentSpot.dist + 1; // set its distance
+			queue.push(spotLeft); // add it to queue
 		}
 	}
 
-	// square to the left
-	if (grid[y][x - 1]) {
-		if (grid[y][x - 1].height <= ourHeight) {
-			grid[y][x - 1].dist = ourDist + 1;
-			queue.push(grid[y][x - 1]);
+	// right
+	const spotRight = (grid[y][x+1]) ? grid[y][x+1] : false;
+	if(spotRight) { // make sure the row exists
+		if(spotRight.height <= currentSpot.height+1 && !spotRight.visited) {
+			spotRight.dist = currentSpot.dist + 1; // set its distance
+			queue.push(spotRight); // add it to queue
 		}
 	}
 
 	printGrid();
 }
 
-
 function printGrid() {
 	let outGrid = "";
 	for (let y in grid) {
 		for (let x in grid[y]) {
-			outGrid += grid[y][x].letter;
-			outGrid += (grid[y][x].visited === true) ? "y" : "n";
-			outGrid += (grid[y][x].dist === Infinity) ? "∞" : grid[y][x].dist;
-			outGrid += " ";
+			outGrid += (grid[y][x].visited) ? "#" : grid[y][x].letter;
+			// outGrid += grid[y][x].letter;
+			// outGrid += (grid[y][x].visited === true) ? "y" : "n";
+			// outGrid += (grid[y][x].dist === Infinity) ? "∞" : grid[y][x].dist;
+			// outGrid += " ";
 		}
 		outGrid += "\n";
 	}
