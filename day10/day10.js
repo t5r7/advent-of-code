@@ -32,16 +32,38 @@ for(const instruction of input.split("\n")) {
 			valuesAtCycle.push(registerX);
 			break;
 	}
-
-	// console.log(cycle, opcode, value, registerX);
 }
 
 
 let sum = 0;
+for(const c of cyclesToCheck) sum+= (valuesAtCycle[c-2] * c);
+console.log("part one:", sum);
 
-for(const c of cyclesToCheck) {
-	console.log(c, valuesAtCycle[c-1]);
-	sum+= (valuesAtCycle[c-2] * c);
+
+// PART TWO
+// this is 100% not how you are meant to do this
+// but it works and I'm not going to spend any more time on it
+
+let out = "";
+
+for(let c in valuesAtCycle) {
+	const beamPos = c % 40;
+	const spritePos = valuesAtCycle[c-1];
+
+	if(
+		beamPos == spritePos ||
+		beamPos == spritePos - 1 ||
+		beamPos == spritePos + 1
+	) {
+		out += "#";
+	} else {
+		out += " ";
+	}
+
+	// console.log(beamPos);
+	
+
+	if(beamPos === 39) out += "\n";
 }
 
-console.log(sum);
+console.log(out);
