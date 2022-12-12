@@ -1,7 +1,15 @@
 const readFileSync = require("fs").readFileSync;
-
-// Read Input file
 const input = readFileSync("input.txt", { encoding: "utf8", flag: "r" });
+
+const ROUNDS = 10000; // 20 for part one, 10000 for part two
+
+// i found this on the subreddit and i have no idea what it means even after reading the theory
+// thanks j122j: https://www.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/izuniw9/
+// and jake-gordon: https://github.com/jake-gordon/aoc/blob/main/2022/D11/Explanation.md
+let thisIsBeyondMyMathsGrade = 1;
+
+// monkey cage
+let monkeys = [];
 
 class Monkey {
 	constructor(num, startingItems, operation, operand, divisor, ifTrue, ifFalse) {
@@ -25,29 +33,32 @@ class Monkey {
 			const item = this.items[i];
 
 			const operand = parseInt((Number.isInteger(this.operand)) ? this.operand : item); // if the operand is "old" set it as the current worry level
-			const worryLevel = Math.floor(eval(`(${item} ${this.operation} ${operand}) / 3`));
+			
+			const worryLevelA = Math.floor(eval(`(${item} ${this.operation} ${operand})`));
+			const worryLevel = worryLevelA % thisIsBeyondMyMathsGrade; // thank you subreddit
+
+			if (worryLevel === Infinity) throw new Error(`uh oh: ${item} ${this.operation} ${operand} = ${worryLevelA} (mod ${thisIsBeyondMyMathsGrade} = ${worryLevel})`);
 
 			if (worryLevel % parseInt(this.divisor) === 0) {
-				const recipient = monkeys.find(m => m.num === parseInt(this.ifTrue));
+				const recipient = monkeys[parseInt(this.ifTrue)];
 				recipient.giveItem(worryLevel);
 
 			} else {
-				const recipient = monkeys.find(m => m.num === parseInt(this.ifFalse));
+				const recipient = monkeys[parseInt(this.ifFalse)];
 				recipient.giveItem(worryLevel);
 			}
 
 			// remove this item from the array
 			this.items.splice(i, 1);
 
+
 			this.inspected++;
 		}
 	}
 }
 
+
 // FIGURE OUT THE SILLY INPUT
-
-let monkeys = [];
-
 for (const monkey of input.split("\n\n")) {
 	const splitMonkey = monkey.split("\n");
 	const num = parseInt(splitMonkey[0].replace(/[^0-9]/g, ""));
@@ -61,8 +72,10 @@ for (const monkey of input.split("\n\n")) {
 	monkeys.push(new Monkey(num, startingItems, operation, operand, divisor, ifTrue, ifFalse));
 }
 
-// do twenty rounds of inspecting items
-for (let i = 0; i < 20; i++) {
+thisIsBeyondMyMathsGrade = monkeys.reduce((a, b) => a * b.divisor, 1);
+
+// do the rounds of inspecting items
+for (let i = 0; i < ROUNDS; i++) {
 	monkeys.forEach(m => m.inspectItems());
 }
 
@@ -70,4 +83,4 @@ for (let i = 0; i < 20; i++) {
 const topMonkeys = monkeys.sort((a, b) => b.inspected - a.inspected).slice(0, 2);
 
 const monkeyBusiness = topMonkeys[0].inspected * topMonkeys[1].inspected;
-console.log("part one: ", monkeyBusiness);
+console.log(monkeyBusiness);
