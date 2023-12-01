@@ -28,29 +28,31 @@ def part2():
 	digits = []
 
 	for line in lines:		
-		# print(f"\n{line}")
 		chars = list(line)
 		
-		# check for any spelled out numbers, many times
-		for _ in range(0, len(chars)*2):
-			for i in range(len(NUMBERS)):
-				if NUMBERS[i] in "".join(chars):
-					# we've found a number, where was it?
-					index = "".join(chars).index(NUMBERS[i])
+		# check for any spelled out numbers, once for each char in the list)
+		for _ in range(0, len(chars)):
+			for num in NUMBERS: # check every spelled-out number
+				charString = "".join(chars)
 
-					# print(f"found an {NUMBERS[i]} ({i+1}) at {index}")
+				if num in charString:
+					# we've found a number, where was it in the line?
+					index = charString.index(num)
+					
+					# what digit is it?
+					digit = str(NUMBERS.index(num) + 1)
 
-					# replace second letter of number with digit
-					# cannot do the first letter because of overlapping lettes;
+					# replace *second letter* of number with digit
+					# cannot do the first letter because of overlapping letters;
 					# eg: nineight, twone, etc (fuck this)
-					chars[index+1] = str(i+1)
+					chars[index + 1] = digit
 
 					# print(chars)
 
 		
 		# remove non-digits from the list
 		lineDigits = []
-		
+
 		for char in chars:
 			if char.isdigit():
 				lineDigits.append(int(char))
