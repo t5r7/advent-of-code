@@ -1,6 +1,4 @@
 from common import *
-
-NUMBERS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 				  
 def part1():
 	lines = getDayInput(1, 1)
@@ -23,6 +21,8 @@ def part1():
 
 
 def part2():
+	NUMBERS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+	
 	lines = getDayInput(1, 2, False)
 
 	digits = []
