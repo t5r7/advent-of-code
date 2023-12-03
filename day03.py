@@ -15,8 +15,7 @@ def part1():
 			thisSpot = grid[row][col]
 
 			# ignore things that aren't numbers
-			if not thisSpot.isdigit():
-				continue
+			if not thisSpot.isdigit(): continue
 			
 			# if we're here, we have a number in this spot
 			thisNum = "" # because we might have multi-digit numbers
@@ -101,7 +100,7 @@ def part2():
 					# reverse the numbers before
 					thisNum = thisNum[::-1]
 					
-					# check after our number
+					# check after (and including) our number
 					for i in range(y, len(thisRow)):
 						if thisRow[i].isdigit():
 							thisNum += f"{thisRow[i]}"
