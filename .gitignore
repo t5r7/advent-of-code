@@ -1,3 +1,6 @@
+# Ignore inputs
+*txt
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,fish,powershell,zsh
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,fish,powershell,zsh
 
