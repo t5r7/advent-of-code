@@ -56,10 +56,11 @@ def part2():
 		})
 
 	for i in range(0, len(scratchcards)):
-		card = scratchcards[i]
-
-		for _ in range(0, card["count"]):
-			for j in range(i+1, i+1+card["matches"]):
+		count, matches = scratchcards[i]["count"], scratchcards[i]["matches"]
+		
+		for _ in range(0, count): # for however many of this card we have
+			# we get multiple of the next X cards depending on how many matches we have
+			for j in range(i+1, i+1+matches):
 				scratchcards[j]["count"] += 1
 
 	total = 0
