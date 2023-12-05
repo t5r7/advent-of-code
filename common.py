@@ -2,7 +2,7 @@ import os
 
 FOLDER = "inputs"
 
-def getDayInput(day, part=1, test=False):
+def getDayInput(day, part=1, test=False, blankLines=False):
 	"""
 	Reads the input file for the given day and returns its contents as a list of strings.
 
@@ -25,5 +25,8 @@ def getDayInput(day, part=1, test=False):
 
 	with open(filePath, "r") as f:
 		lines = f.read().splitlines()
-		lines = [line for line in lines if line]  # remove blank lines
+
+		if not blankLines:
+			lines = [line for line in lines if line]  # remove blank lines	
+
 		return lines
