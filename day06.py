@@ -49,7 +49,7 @@ def part2():
 
 	raceWaysToWin = 0
 
-	quarter = 
+	quarter = raceLength // 4
 	half = raceLength // 2
 	threeQuarters = raceLength // 4 * 3
 
