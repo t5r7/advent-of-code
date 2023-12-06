@@ -1,6 +1,8 @@
-import re
+import re, time
+
 from common import *
 
+startTime = time.time()
 
 def part1():
 	lines = getDayInput(5, 1, False, True)
@@ -46,7 +48,7 @@ def part1():
 		# print("new seed time")
 		locations.append(seed)
 
-	# find lowest location\
+	# find lowest location
 	return min(locations)
 
 
@@ -80,6 +82,8 @@ def part2():
 				lovelyLittleDatabase[title].append(numbers)
 
 	for i in range(0, len(seedsRanges), 2):
+		print(f"{round(time.time() - startTime, 2)} secs - starting {seedsRanges[i]} to {seedsRanges[i] + seedsRanges[i + 1]} ({(seedsRanges[i] + seedsRanges[i + 1]) - seedsRanges[i]} to do)")
+
 		for seed in range(seedsRanges[i], seedsRanges[i] + seedsRanges[i + 1]):
 			for m in lovelyLittleDatabase:
 				numberList = lovelyLittleDatabase[m]
@@ -92,12 +96,17 @@ def part2():
 						seed = dest + (seed - source)
 						# print(seed)
 						break
-
-			# print("new seed time")
+			
 			locations.append(seed)
+
+		print(f"{round(time.time() - startTime, 2)} secs - done {i} of {len(seedsRanges)}")
 
 	# find lowest location
 	return min(locations)
 
+
 print(f"Part 1: {part1()}")
+print(f"Time: {round(time.time() - startTime, 2)} seconds")
+
 print(f"Part 2: {part2()}")
+print(f"Time: {round(time.time() - startTime, 2)} seconds")
