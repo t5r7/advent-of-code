@@ -10,6 +10,7 @@ def getDayInput(day, part=1, test=False, blankLines=False):
 		- day (int): The day for which to read the input file.
 		- part (int): Part 1 or 2 of the challenge. Defaults to 1.
 		- test (bool): Whether to read the test input file for that day. Defaults to False.
+		- blankLines (bool): Whether to include blank lines in the output. Defaults to False.
 
 	Returns:
 		- A list of strings (the lines of the input fule)
