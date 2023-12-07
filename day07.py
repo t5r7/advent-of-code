@@ -2,40 +2,74 @@ import time
 from functools import cmp_to_key
 from common import *
 
-# five of a kind - if all 5 have same label
-# four of a kind - if 4 have same label, one different
-# full house - 3 of one label, 2 of another
-# three of a kind - 3 of one label, 2 others are different
-# two pair - 2 of one label, 2 of another, 1 different
-# one pair - 2 of one label, 3 others are different
-# high card - all 5 cards are different
 def findHandType(cards):
-	# five of a kind
+	# this is very messy and i already don't remember exactly how it works
+	# but it seems to work? so let's not touch it
+
 	if len(set(cards)) == 1:
+		# five of a kind - if all 5 have same label - returns 7
 		return 7
 
-	# four of a kind
 	if len(set(cards)) == 2:
 		for card in set(cards):
 			if cards.count(card) == 4:
+				# four of a kind - if 4 have same label, one different - returns 6
 				return 6
+		# full house - 3 of one label, 2 of another - returns 5
 		return 5
 
-	# three of a kind
 	if len(set(cards)) == 3:
 		for card in set(cards):
 			if cards.count(card) == 3:
+				# three of a kind - 3 of one label, 2 others are different - returns 4
 				return 4
+		# two pair - 2 of one label, 2 of another, 1 different - returns 3
 		return 3
 
 	if len(set(cards)) == 4:
+		# one pair - 2 of one label, 3 others are different - returns 2
 		return 2
 
-	# high card
 	if len(set(cards)) == 5:
+		# high card - all 5 cards are different - returns 1
 		return 1
 	
+	# If none of the above conditions are met, return 0
 	return 0
+
+
+# with jokers, they can be any other card, so we need to find the best hand
+# eg: QQQJA would usually be a 3 of a kind, but with the joker it's a 4 of a kind
+def findHandTypeWithJokers(cards):
+	jokers = cards.count(1) # 1 is the joker value
+
+	if jokers == 0:
+		# no jokers, just find the hand type normally
+		return findHandType(cards)
+	
+	# find the most common card
+	# this solution came from reddit:
+	# https://www.reddit.com/r/adventofcode/comments/18cpk4f/2023_day_7_part_2_poker_logic_with_wildcards_if/
+	# without this, i think i would've been here forever
+	# (my other solution was to brute force every possible hand)
+	mostCommon = 0
+	mostCommonCount = 0
+	for card in set(cards):
+		if card == 1: continue # skip jokers
+
+		if cards.count(card) > mostCommonCount:
+			mostCommon = card
+			mostCommonCount = cards.count(card)
+
+	# replace the jokers with the most common card
+	newCards = cards.copy()
+
+	for i in range(0, 5):
+		if newCards[i] == 1:
+			newCards[i] = mostCommon
+
+	# now find the hand type
+	return findHandType(newCards)
 
 
 def findStrongerHand(hand1, hand2):
@@ -55,30 +89,6 @@ def findStrongerHand(hand1, hand2):
 				return 1
 
 		return 0
-
-
-# for pt2 - we can replace "0" (joker) with any card to make a better hand
-def findBestWithJokers(cards):
-	bestHand = 0
-	bestCards = cards.copy()
-
-	for i in range(5):
-		c = cards[i]
-
-		if c == 1:
-			# we have a joker, let's see what happens if we replace it with each card
-			# including keeping it as a joker
-			for j in range(14, 1, -1):
-				newCards = bestCards.copy()
-				newCards[i] = j
-
-				handType = findHandType(newCards)
-				if handType >= bestHand:
-					bestHand = handType
-					bestCards = newCards
-
-	print(f"{cards} ({findHandType(cards)}) -> {bestCards} ({findHandType(bestCards)})")
-	return bestCards
 
 
 def part1():
@@ -146,20 +156,17 @@ def part2():
 			else:
 				cards[i] = int(cards[i])
 
-		cardsWithJoker = findBestWithJokers(cards)
-
 		hands.append({
 			"cards": cards,
-			"cardsWithJoker": cardsWithJoker,
 			"bid": int(hand.split(" ")[1]),
-			"handType": findHandType(cardsWithJoker)
+			"handType": findHandTypeWithJokers(cards)
 		})
 
 	sortedHands = sorted(hands, key=cmp_to_key(findStrongerHand), reverse=True)
 
 	total = 0
 	for i in range(len(sortedHands)):
-		print(f"{i + 1}: {sortedHands[i]}")
+		# print(f"{i + 1}: {sortedHands[i]}")
 		total += sortedHands[i]["bid"] * (i + 1)
 
 	return total
