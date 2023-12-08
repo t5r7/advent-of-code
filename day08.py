@@ -1,4 +1,4 @@
-import time, re
+import time, re, math
 from common import *
 
 
@@ -62,51 +62,53 @@ def part2():
 
 	searchNodes = [n for n in nodes if n["name"].endswith("A")]
 	searcherCount = len(searchNodes)
-	endingInZ = 0
 
 	steps = 0
+
+	atZ = []
+	for i in range(0, searcherCount):
+		atZ.append(False)
 
 	dirAmount = len(directions)
 	dirIndex = 0
 
 	# print(f"{searcherCount} ghosts")
 
-	while endingInZ < searcherCount:
+	while set(atZ) != {True}:
+		steps += 1
+
 		if dirIndex >= dirAmount:
 			dirIndex = 0
 
-		direction = directions[dirIndex]
-		# print(f"going {direction}")
+		# print(f"step {steps}: {directions[dirIndex]}")
 
 		for i in range(0, searcherCount):
-			steps += 1
+			# print(f"step {steps}: {i} is at {searchNodes[i]['name']}")
 
-			node = searchNodes[i]
-			
-			if node is None:
-				# print(f"searcher {i} is done, no need to step")
-				continue
-			else:
-				# print(f"searcher {i} starting at {searchNodes[i]['name']}")
-				pass
-			
-			left = node["left"]
-			right = node["right"]
+			left = searchNodes[i]["left"]
+			right = searchNodes[i]["right"]
 
-			if direction == "L":
+			if directions[dirIndex] == "L":
 				searchNodes[i] = next(n for n in nodes if n["name"] == left)
-				# print(f"searcher {i} is now at {searchNodes[i]['name']}")
-			elif direction == "R":
-				searchNodes[i] = next(n for n in nodes if n["name"] == right)
-				# print(f"searcher {i} is now at {searchNodes[i]['name']}")
 
-			
+				# print(f"step {steps}: {i} is is moving to {searchNodes[i]['name']}")
+
+			elif directions[dirIndex] == "R":
+				searchNodes[i] = next(n for n in nodes if n["name"] == right)
+
+				# print(f"step {steps}: {i} is moving to {searchNodes[i]['name']}")
+
+		for i in range(0, searcherCount):
 			if searchNodes[i]["name"].endswith("Z"):
-				# print(f"searcher {i} found z")
-				endingInZ += 1
-				searchNodes[i] = None
+				# print(f"step {steps}: {i} is at a Z")
+				atZ[i] = True
+			else:
+				atZ[i] = False
 
 		dirIndex += 1
+		
+		print(f"step {steps}: {atZ}")
+
 
 	return steps
 
@@ -117,7 +119,5 @@ print(f"Time: {round(time.time() - startTime, 2)} seconds")
 
 startTime = time.time()
 pt2 = part2()
-print(f"Part 2: {pt2}", end="")
-if int(pt2) <= 133194:
-	print(" is wrong")
+print(f"Part 2: {pt2}")
 print(f"Time: {round(time.time() - startTime, 2)} seconds")
