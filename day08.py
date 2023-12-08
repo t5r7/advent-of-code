@@ -63,26 +63,27 @@ def part2():
 	searchNodes = [n for n in nodes if n["name"].endswith("A")]
 	searcherCount = len(searchNodes)
 
-	steps = 0
-
-	atZ = []
+	# find our first Z
+	stepsToZ = []
 	for i in range(0, searcherCount):
-		atZ.append(False)
+		stepsToZ.append(0)
+
+	atZ = 0 # how many of our searchers have found their Z?
 
 	dirAmount = len(directions)
 	dirIndex = 0
 
-	# print(f"{searcherCount} ghosts")
-
-	while set(atZ) != {True}:
-		steps += 1
-
-		if dirIndex >= dirAmount:
+	while atZ < searcherCount: # until all searchers have found their Z
+		if dirIndex >= dirAmount: # wrap around the directions list
 			dirIndex = 0
 
 		# print(f"step {steps}: {directions[dirIndex]}")
 
 		for i in range(0, searcherCount):
+			if searchNodes[i] is None:
+				continue
+
+			stepsToZ[i] += 1
 			# print(f"step {steps}: {i} is at {searchNodes[i]['name']}")
 
 			left = searchNodes[i]["left"]
@@ -91,27 +92,23 @@ def part2():
 			if directions[dirIndex] == "L":
 				searchNodes[i] = next(n for n in nodes if n["name"] == left)
 
-				# print(f"step {steps}: {i} is is moving to {searchNodes[i]['name']}")
-
 			elif directions[dirIndex] == "R":
 				searchNodes[i] = next(n for n in nodes if n["name"] == right)
 
-				# print(f"step {steps}: {i} is moving to {searchNodes[i]['name']}")
-
-		for i in range(0, searcherCount):
 			if searchNodes[i]["name"].endswith("Z"):
-				# print(f"step {steps}: {i} is at a Z")
-				atZ[i] = True
-			else:
-				atZ[i] = False
+				atZ += 1
+				searchNodes[i] = None
 
 		dirIndex += 1
 		
-		print(f"step {steps}: {atZ}")
+		# print(f"step {steps}: {atZ}")
 
-
-	return steps
-
+	# find the LCM of all the steps to Z
+	# i made the mistake of checking reddit before i'd finished this
+	# and somehow this is the solution?? feels like cheating
+	# i also don't like how this is more maths-y than code-y, isn't as fun :(
+	# hey ho - my brute-force solution would've worked..... eventually >_>
+	return math.lcm(*stepsToZ)
 
 startTime = time.time()
 print(f"Part 1: {part1()}")
