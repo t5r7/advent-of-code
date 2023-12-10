@@ -1,5 +1,4 @@
 import time
-
 from common import *
 
 
@@ -103,9 +102,5 @@ print(f"Part 1: {part1()}")
 print(f"Time: {round(time.time() - startTime, 2)} seconds")
 
 startTime = time.time()
-pt2 = part2()
-print(f"Part 2: {pt2}")
-if pt2 >= 20332:
-	print("wrong, too high")
-
+print(f"Part 2: {part2()}")
 print(f"Time: {round(time.time() - startTime, 2)} seconds")
